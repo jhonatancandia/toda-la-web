@@ -214,7 +214,7 @@
                   <input type="text" placeholder="Title" name="title" required>
               </div>
               <div class="field">
-                <label>Descriptión</label>
+                <label>Description</label>
                 <textarea rows="2" name="description"></textarea>
               </div>
               <div class="field">
