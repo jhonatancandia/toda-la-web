@@ -31,16 +31,17 @@
             exit("Error: ".$e->getMessage());
         }
     }
-    /* -- Fin Boton iniciar, del index -- */
     
     /* -- Boton registrarse, del index -- */
-    if(isset($_POST["registrarse"])){
-        $nombre = addslashes(strip_tags($_POST['nombre']));
-        $correo = addslashes(strip_tags($_POST['correo']));
-        $n_usuario = addslashes(strip_tags($_POST['n_usuario']));
-        $n_contraseña = addslashes(strip_tags($_POST['n_contraseña']));
+    if(!empty($_REQUEST)){
+        if($_REQUEST['registrar'] == "ok"){
+            $nombre = addslashes(strip_tags($_POST['nombre']));
+            $correo = addslashes(strip_tags($_POST['correo']));
+            $n_usuario = addslashes(strip_tags($_POST['n_usuario']));
+            $n_contraseña = addslashes(strip_tags($_POST['n_contrasena'])); 
 
-        registrar($nombre, $correo, $n_usuario, $n_contraseña);
+            registrar($nombre, $correo, $n_usuario, $n_contraseña);
+        }    
     }
 
     function registrar($nombre, $correo, $n_usuario, $n_contraseña){
@@ -53,7 +54,7 @@
                     if($person->create($nombre, $correo, $id_user) == true){
                         echo 'Cuenta creada exitosamente';
                     }else{
-                        echo 'Ocurrio un error al momento de crear la cuenta';
+                        echo 'Ocurrio un error al momento de crear la cuenta, porfavor vuelva a intentarlo';
                     }
                 }else{ 
                     echo 'Existe el mismo nombre de usuario';
@@ -65,5 +66,4 @@
             exit("Error: ".$e->getMessage());
         }
     }
-    /* -- Fin Boton registrarse, del index -- */
 

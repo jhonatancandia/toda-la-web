@@ -73,3 +73,20 @@ hr{
 .ui.inverted.blue.button{
     padding: 10px;
 }
+
+.text-center{
+    text-align: center;
+}
+
+.field-n > label{
+    font-weight: bold;
+}
+
+.field-n{
+    margin-top: 10px;
+}
+
+.mt-10{
+    margin-top: 10px;
+}
+

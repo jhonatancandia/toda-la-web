@@ -68,7 +68,7 @@
     ?>  
       <div class="ui card">
         <div class="content">
-          <div class="header"><?= $post['title']; ?></div>
+          <div class="header text-center"><?= $post['title']; ?></div>
           <div class="meta">
             <br>
             <span class="left floated time"><?= 'Creado por '.$post['username'].' el '.$post['date_create']; ?></span>
@@ -92,8 +92,6 @@
             <div class="float floated author">
               <a href="../controllers/reaction?idp=<?= base64_encode($post['id_post']);?>&type=<?= base64_encode('m_enc');?>"><i class="left floated like icon activating element" data-content="Me encanta"
                 data-position="bottom left"><?= $post['m_enc']; ?></i></a>
-              <a href="../controllers/reaction?idp=<?= base64_encode($post['id_post']);?>&type=<?= base64_encode('m_exc');?>"><i class="left floated smile icon activating element" data-content="Me excita"
-                data-position="bottom left"><?= $post['m_exc']; ?></i></a>
               <a href="../controllers/reaction?idp=<?= base64_encode($post['id_post']);?>&type=<?= base64_encode('m_emp');?>"><i class="left floated meh icon activating element" data-content="Me emperra" 
                 data-position="bottom left"><?= $post['m_emp']; ?></i></a>
             </div>
@@ -105,8 +103,6 @@
             <div class="float floated author">
               <a href=""><i class="left floated like icon activating element" data-content="Me encanta"
                 data-position="bottom left"><?= $post['m_enc']; ?></i></a>
-              <a href=""><i class="left floated smile icon activating element" data-content="Me excita"
-                data-position="bottom left"><?= $post['m_exc']; ?></i></a>
               <a href=""><i class="left floated meh icon activating element" data-content="Me emperra" 
                 data-position="bottom left"><?= $post['m_emp']; ?></i></a>
             </div>
@@ -120,7 +116,6 @@
       }
     ?>
   </div>
-  <!--End cards-->
   <!--Modal login-->
   <div class="ui modal" id="login">
     <i class="close icon"></i>
@@ -156,7 +151,6 @@
       </div>
     </div>
   </div>
-  <!--End modal login-->
   <!--Modal register-->
   <div class="ui modal" id="registrarse">
     <i class="close icon"></i>
@@ -164,43 +158,45 @@
       <div class="ui one column very relaxed stackable grid">
         <div class="column">
           <div class="ui form">
-            <form action="../controllers/user.php" method="POST">
-              <div class="field">
-                <label>Name(s)</label>
-                <div class="ui left icon input">
-                  <input type="text" placeholder="Name(s)" name="nombre" required>
+            <form method="POST" id="form">
+              <div class="field-n">
+                <label for="nombre">Nombre(s)</label>
+                <div class="ui left icon input mt-10">
+                  <input type="text" placeholder="Name(s)" name="nombre" id="nombre" required>
                   <i class="user icon"></i>
                 </div>
               </div>
-              <div class="field">
-                <label>E-mail</label>
-                <div class="ui left icon input">
-                  <input type="email" placeholder="E-mail" name="correo" required>
-                  <i class="internet explorer icon"></i>
+              <div class="field-n">
+                <label for="nombre">Correo</label>
+                <div class="ui left icon input mt-10">
+                  <input type="email" placeholder="E-mail" name="correo" id="correo" required>
+                  <i class="envelope square icon"></i>
                 </div>
               </div>
-              <div class="field">
-                <label>Username</label>
-                <div class="ui left icon input">
-                  <input type="text" placeholder="Username" name="n_usuario" required>
+              <div class="field-n">
+                <label for="nombre">Username</label>
+                <div class="ui left icon input mt-10">
+                  <input type="text" placeholder="Username" name="n_usuario" id="username" required>
                   <i class="user icon"></i>
                 </div>
               </div>
-              <div class="field">
-                <label>Password</label>
-                <div class="ui left icon input">
-                  <input type="password" placeholder="Password" name="n_contraseña" required>
+              <div class="field-n">
+                <label for="nombre">Password</label>
+                <div class="ui left icon input mt-10">
+                  <input type="password" placeholder="Password" name="n_contrasena" id="password" required>
                   <i class="lock icon"></i>
                 </div>
               </div>
-              <button type="submit" class="ui blue submit button" name="registrarse">Registrarse</button>
+              <div class="mt-10" id="verificate"></div>
+              <div class="mt-10">
+                <button type="button" class="fluid ui button primary" id="registrar_usuario" name="registrarse">Registrarse</button>
+              </div>
             </form>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <!--End modal register-->
   <!--Modal new post-->
   <div class="ui modal" id="new_post">
     <i class="close icon"></i>
@@ -228,14 +224,11 @@
       </div>
     </div>
   </div>
-  <!--End modal post-->
-  <!--End content-->
   <!--Footer and Scripts-->
   <?php 
     include 'layout/footer.php';
     include 'layout/script.php';
   ?>
-  <!--End footer and scripts-->
 </body>
 
 </html>
