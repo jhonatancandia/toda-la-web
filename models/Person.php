@@ -1,5 +1,5 @@
 <?php 
-    require_once '../config/Database.php';
+    require_once $_SERVER['DOCUMENT_ROOT'].'/web/config/Database.php';
 
     class Person{
         private $name;

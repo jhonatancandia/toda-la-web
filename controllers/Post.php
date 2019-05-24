@@ -5,12 +5,14 @@
     require_once '../models/User.php';
 
     /* Para crear post */
-    if(isset($_POST['create_post'])){
-        $title = addslashes(strip_tags($_POST['title']));
-        $description = addslashes(strip_tags($_POST['description']));
-        $link = addslashes(strip_tags($_POST['link']));
+    if(!empty($_REQUEST)){
+        if($_REQUEST['peticion'] == "registrar"){
+            $title = addslashes(strip_tags($_POST['title']));
+            $description = addslashes(strip_tags($_POST['description']));
+            $link = addslashes(strip_tags($_POST['link']));
 
-        registrar($title, $description, $link);
+            registrar($title, $description, $link);
+        }
     }
 
     function registrar($title, $description, $link){
@@ -18,18 +20,15 @@
             if(!empty($title) && !empty($description) && !empty($link)){
                 $post = new Post();
                 $user = new User();
-                if($post->create($title, $description, $link) == true){
-                    if($post->insertUserPost($user->getIdUser($_SESSION['username']), $post->getIdPost()) == true){
-                        header('Location: ../views/posts');
-                    }
-                    else{
-                        echo 'No se registro el post, por parte de user post';
-                    }
+                if($post->create($title, $description, $link, $user->getIdUser($_SESSION['username']))){
+                    echo 'correcto';
                 }
-                else
-                    echo 'Ocurrio un error';
-            }else
-                echo 'Falta algun dato';
+                else{
+                    echo 'Ocurrio un error, porfavor vuelva a intentarlo';
+                }
+            }else{
+                echo 'Falta algun dato, porfavor vuelva a intentarlo';
+            }
         } catch (Exception $e) {
             exit("Error: ".$e->getMessage());
         }

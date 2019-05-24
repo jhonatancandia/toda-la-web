@@ -5,13 +5,15 @@
     session_start();
 
     /* -- Boton iniciar, del index -- */
-    if(isset($_POST["iniciar"])){
-        $username = addslashes(strip_tags($_POST['username']));
-        $password = addslashes(strip_tags($_POST['password'])); 
-        
-        logearse($username, $password);
-    }
+    if(!empty($_REQUEST)){
+        if($_REQUEST['peticion'] == "login"){
+            $username = addslashes(strip_tags($_POST['username']));
+            $password = addslashes(strip_tags($_POST['password'])); 
 
+            logearse($username, $password);
+        }
+    }
+        
     function logearse($username, $password){
         try{
             if(!empty($username) && !empty($password)){
@@ -20,12 +22,12 @@
                 if(count($usuario) > 0){
                     $_SESSION['username'] = $username;
                     $_SESSION['password'] = $password;
-                    header('Location: ../views/posts');
+                    echo 'correcto';
                 }else{
-                    header('Location: ../');
+                    echo 'Esta cuenta no existe, porfavor vuelva a intentarlo';
                 }
             }else{
-                header('Location: ../index?res='.md5('falta_datos'));
+                echo 'Se debe ingresar todos los datos, porfavor vuelva a intentarlo';
             }
         }catch(Exception $e){
             exit("Error: ".$e->getMessage());
@@ -34,7 +36,7 @@
     
     /* -- Boton registrarse, del index -- */
     if(!empty($_REQUEST)){
-        if($_REQUEST['registrar'] == "ok"){
+        if($_REQUEST['peticion'] == "register"){
             $nombre = addslashes(strip_tags($_POST['nombre']));
             $correo = addslashes(strip_tags($_POST['correo']));
             $n_usuario = addslashes(strip_tags($_POST['n_usuario']));
@@ -52,7 +54,7 @@
                 if($user->create($n_usuario, md5($n_contraseña)) == true){
                     $id_user = $user->getId();
                     if($person->create($nombre, $correo, $id_user) == true){
-                        echo 'Cuenta creada exitosamente';
+                        echo 'correcto';
                     }else{
                         echo 'Ocurrio un error al momento de crear la cuenta, porfavor vuelva a intentarlo';
                     }
@@ -60,7 +62,7 @@
                     echo 'Existe el mismo nombre de usuario';
                 }
             }else{
-                echo 'Falta un dato (nombre, apellido, correo, nombre usuario, contrasenha)';
+                echo 'Falta un dato, porfavor vuelva a intentarlo';
             }
         }catch(Exception $e){
             exit("Error: ".$e->getMessage());

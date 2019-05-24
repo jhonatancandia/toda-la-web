@@ -1,5 +1,5 @@
 <?php 
-    require_once '../config/Database.php';
+    require_once $_SERVER['DOCUMENT_ROOT'].'/web/config/Database.php';
     
     class Post{
         private $title;
@@ -16,25 +16,14 @@
             $this->table = 'post';
         }
 
-        public function create($title, $description, $link){
+        public function create($title, $description, $link, $iduser){
             $conex = new Database();
             $conexion = $conex->connect();
             try {
                 $this->title = $title;
                 $this->description = $description;
                 $this->link = $link;
-                $query = "INSERT INTO $this->table (title, description, link, date_create) VALUES ('$this->title', '$this->description', '$this->link', '$this->date')";
-                return $conexion->prepare($query)->execute();
-            } catch (PDOException $e) {
-                exit("Error: ".$e->getMessage());
-            }
-        }
-
-        public function insertUserPost($iduser, $idpost){
-            $conex = new Database();
-            $conexion = $conex->connect();
-            try {
-                $query = "INSERT INTO user_post (id_post, id_user, m_emp, m_enc, m_exc) VALUES ($idpost, $iduser, 0, 0, 0)";
+                $query = "INSERT INTO $this->table (title, description, link, date_create, id_user) VALUES ('$this->title', '$this->description', '$this->link', '$this->date', $iduser)";
                 return $conexion->prepare($query)->execute();
             } catch (PDOException $e) {
                 exit("Error: ".$e->getMessage());
@@ -59,50 +48,12 @@
             $conex = new Database();
             $conexion = $conex->connect();
             try {
-                $query = "SELECT * FROM $this->table p, user u, user_post up WHERE p.id_post = up.id_post AND u.id_user = up.id_user";
+                $query = "SELECT * FROM $this->table p, user u WHERE p.id_user = u.id_user";
                 return $conexion->query($query)->fetchAll();
             } catch (PDOException $e) {
                 exit("Error: ".$e->getMessage());
             }
         }
         
-        public function getCantReaction($id, $type){
-            $conex = new Database();
-            $conexion = $conex->connect(); 
-            try {
-                $query = "SELECT $type FROM $this->table WHERE id_post=$id";
-                $res = $conexion->query($query)->fetchAll();
-                foreach ($res as $id) {
-                    return $id["$type"];
-                }
-            } catch (PDOException $e) {
-                exit("Error: ".$e->getMessage());
-            }
-        }
         
-        /*
-        public function updateReaction($id, $type, $count){
-            $conex = new Database();
-            $conexion = $conex->connect(); 
-            try {
-                $query = "UPDATE $this->table SET $type = $count WHERE id_post = $id";
-                return $conexion->prepare($query)->execute();
-            } catch (PDOException $e) {
-                exit("Error: ".$e->getMessage());
-            }
-        }
-
-        public function getExistReaction($username, $id){
-            $conex = new Database();
-            $conexion = $conex->connect();
-            try {
-                $query = "SELECT COUNT(*) FROM user u, post p WHERE u.username = '$username' AND p.id_post = $id";
-                $res = $conexion->query($query)->fetchAll();
-                foreach ($res as $res) {
-                    return $res['COUNT(*)'];
-                }
-            } catch (PDOException $e) {
-                exit("Error: ".$e->getMessage());
-            }
-        }*/
     }

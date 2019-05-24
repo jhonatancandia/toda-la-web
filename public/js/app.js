@@ -16,57 +16,88 @@
         $("#create_button_not").click(inicializar);
         
         $("#create_button_yes").click(create_post);
-
-        $("#registrar_usuario").click(function (){
-            if(!noHayDatos($("#nombre").val()) && !noHayDatos($("#correo").val()) && !noHayDatos($("#username").val()) && !noHayDatos($("#password").val())){
-                if(emailValido($("#correo").val())){
-                    registrarUsuario();
-                }else{
-                    $("#verificate").addClass("ui red message transition").html("<p>Debe insertar un correo valido</p>");
-                }
-            }
-        });
-
-        $("#registrar_usuario_i").click(function (){
-            if(!noHayDatos($("#nombre").val()) && !noHayDatos($("#correo").val()) && !noHayDatos($("#username").val()) && !noHayDatos($("#password").val())){
-                if(emailValido($("#correo").val())){
-                    registrarUsuarioI();
-                }else{
-                    $("#verificate").addClass("ui red message transition").html("<p>Debe insertar un correo valido</p>");
-                }
-            }
-        });
-
+        //Seccion formulario NEW USER
         $("#nombre").blur(function () { 
             if(noHayDatos($("#nombre").val())){
-                marcarDOM("nombre");
+                marcarDOMRegister("nombre");
             }
         });
         
         $("#correo").blur(function () { 
             if(noHayDatos($("#correo").val())){
-                marcarDOM("correo");
+                marcarDOMRegister("correo");
             }else{
                 if(!emailValido($("#correo").val())){
-                    $("#verificate").addClass("ui red message transition").html("<p>Debe insertar un correo valido</p>");
+                    $("#verificate_register").addClass("ui red message transition").html("<p>Debe insertar un correo valido</p>");
                 }
             }
         });
         
         $("#username").blur(function () { 
             if(noHayDatos($("#username").val())){
-                marcarDOM("nombre de usuario");
+                marcarDOMRegister("nombre de usuario");
             }
         });
         
         $("#password").blur(function () { 
             if(noHayDatos($("#password").val())){
-                marcarDOM("contraseña");
+                marcarDOMRegister("contraseña");
             }
         });
-        
-        /** Activado de popup de las reacciones*/
+        //Seccion formulario LOGIN
+        $("#user").blur(function () {
+           if(noHayDatos($("#user").val())){
+               marcarDOMLogin("nombre de usuario");
+           } 
+        });
+
+        $("#pass").blur(function () { 
+            if(noHayDatos($("#pass").val())){
+                marcarDOMLogin("contraseña")
+            }
+        });
+        //Seccion formulario POST
+        $("#title").blur(function () {
+            if(noHayDatos($("#title").val())){
+                marcarDOMPost("titulo")
+            }
+        });
+
+        $("#description").blur(function () { 
+            if(noHayDatos($("#description").val())){
+                marcarDOMPost("descripcion")
+            }
+        });
+
+        $("#link").blur(function () { 
+            if(noHayDatos($("#link").val())){
+                marcarDOMPost("enlace a la pagina")
+            }
+        });
+
         $(".activating.element").popup();
+        //Seccion de verificacion y peticion AJAX
+        $("#registrar_usuario").click(function (){
+            if(!noHayDatos($("#nombre").val()) && !noHayDatos($("#correo").val()) && !noHayDatos($("#username").val()) && !noHayDatos($("#password").val())){
+                if(emailValido($("#correo").val())){
+                    registrarUsuario();
+                }else{
+                    $("#verificate_register").addClass("ui red message transition").html("<p>Debe insertar un correo valido</p>");
+                }
+            }
+        });
+
+        $("#login_in").click(function () {
+            if(!noHayDatos($("#user").val()) && !noHayDatos($("#pass").val())){
+                loguearse();
+            }
+        });
+
+        $("#create_post").click(function () {
+            if(!noHayDatos($("#title").val()) && !noHayDatos($("#description").val()) && !noHayDatos($("#link").val())){
+                registrarPost();
+            }
+        });
     });
 
     /** Funciones que ejecutan los escuchadores */
@@ -86,23 +117,49 @@
     function registrarUsuario(){
         var usuario = $("#form").serialize();
         $.ajax({
-            url: "../controllers/User.php?registrar=ok",
+            url: "controllers/User.php?peticion=register",
             type: "POST",
             data: usuario,
             success: function (response){
-                $("#verificate").addClass("ui green message transition").html(response);
+                if(response === "correcto"){
+                    $("#verificate_register").addClass("ui green message transition").html("Cuenta creada correctamente");
+                }else{
+                    $("#verificate_register").addClass("ui green message transition").html(response);
+                }
             }
         });
-    }    
-    //Registrar usuario para la pagina index
-    function registrarUsuarioI(){
-        var usuario = $("#form_i").serialize();
+    }
+    //Logeo de usuario para la pagina post
+    function loguearse() {
+        var usuario = $("#login-form").serialize();
         $.ajax({
             type: "POST",
-            url: "controllers/User.php?registrar=ok",
+            url: "controllers/User.php?peticion=login",
             data: usuario,
             success: function (response) {
-                $("#verificate").addClass("ui green message transition").html(response);
+                if(response === "correcto"){
+                    $("#login").modal("hide");
+                    location.reload();
+                }else{
+                    $("#verificate_login").addClass("ui red message transition").html(response);
+                }
+            }
+        });
+    }
+    //Registro del POST
+    function registrarPost(){
+        var post = $("#form-post").serialize();
+        $.ajax({
+            type: "POST",
+            url: "controllers/Post.php?peticion=registrar",
+            data: post,
+            success: function (response) {
+                if(response === "correcto"){
+                    $("#new_post").modal("hide");
+                    location.reload();
+                }else{
+                    $("#verificate_post").addClass("ui red message transition").html(response);
+                }
             }
         });
     }
@@ -110,9 +167,17 @@
     function noHayDatos(valor){
         return valor === "";
     }
-    //Muestra los mensajes cuando no se escribe nada en los input
-    function marcarDOM(valor){
-        $("#verificate").addClass("ui red message transition").html("<p>Debe ingresar su "+ valor + "</p>");
+    //Muestra los mensajes cuando no se escribe nada en los input registrarse
+    function marcarDOMRegister(valor){
+        $("#verificate_register").addClass("ui red message transition").html("<p>Debe ingresar su "+ valor + "</p>");
+    }
+    //Muestra los mensajes cuando no se escribe nada en los input login
+    function marcarDOMLogin(valor){
+        $("#verificate_login").addClass("ui red message transition").html("<p>Debe ingresar su "+ valor + "</p>");
+    }
+    //Muestra los mensajes cuando no se escribe nada en los input del post
+    function marcarDOMPost(valor){
+        $("#verificate_post").addClass("ui red message transition").html("<p>Debe ingresar un(a) "+ valor + "</p>");
     }
     //Verifica si el email es valido
     function emailValido(valor){
