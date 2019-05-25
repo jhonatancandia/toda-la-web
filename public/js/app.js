@@ -98,6 +98,14 @@
                 registrarPost();
             }
         });
+
+        $(".need-register").click(function (e) { 
+            bulmaToast.toast({ 
+                message: "Porfavor ingrese con su cuenta",
+                type: "is-danger",
+                animate: { in: "fadeIn", out: "fadeOut" }
+            });
+        });
     });
 
     /** Funciones que ejecutan los escuchadores */

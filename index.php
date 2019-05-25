@@ -58,7 +58,11 @@
   <div class="ui four stackable cards">
     <?php 
       require_once 'models/post.php';
+      require_once 'models/reaction.php';
+
       $post = new Post();
+      $reactions = new Reaction();
+
       $posts = $post->getPosts();
       foreach ($posts as $post) {
     ?>  
@@ -86,10 +90,10 @@
         ?>
           <div class="extra content">
             <div class="float floated author">
-              <a href="controllers/reaction?idp=<?= base64_encode($post['id_post']);?>&type=<?= base64_encode('m_enc');?>"><i class="left floated like icon activating element" data-content="Me encanta"
-                data-position="bottom left">0</i></a>
+              <a id="m_enc" href="controllers/reaction?idp=<?= base64_encode($post['id_post']);?>&type=<?= base64_encode('m_enc');?>"><i class="left floated like icon activating element" data-content="Me encanta"
+                data-position="bottom left"><?= $reactions->getCantReaction($post['id_post'], 'm_enc') ?></i></a>
               <a href="controllers/reaction?idp=<?= base64_encode($post['id_post']);?>&type=<?= base64_encode('m_emp');?>"><i class="left floated meh icon activating element" data-content="Me emperra" 
-                data-position="bottom left">0</i></a>
+                data-position="bottom left"><?= $reactions->getCantReaction($post['id_post'], 'm_emp') ?></i></a>
             </div>
           </div>
         <?php
@@ -97,10 +101,10 @@
         ?>
           <div class="extra content">
             <div class="float floated author">
-              <a href=""><i class="left floated like icon activating element" data-content="Me encanta"
-                data-position="bottom left">0</i></a>
-              <a href=""><i class="left floated meh icon activating element" data-content="Me emperra" 
-                data-position="bottom left">0</i></a>
+              <i class="left floated like icon activating element need-register" data-content="Me encanta"
+                data-position="bottom left"><?= $reactions->getCantReaction($post['id_post'], 'm_enc') ?></i>
+              <i class="left floated meh icon activating element need-register" data-content="Me emperra" 
+                data-position="bottom left"><?= $reactions->getCantReaction($post['id_post'], 'm_emp') ?></i>
             </div>
           </div>
         <?php

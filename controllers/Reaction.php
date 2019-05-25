@@ -1,21 +1,25 @@
 <?php
-    require_once '../models/Post.php';
+    require_once '../models/Reaction.php';
     session_start();
 
     $id = base64_decode(addslashes(strip_tags($_REQUEST['idp'])));
     $type = base64_decode(addslashes(strip_tags($_REQUEST['type'])));
     
     if(!empty($id) && !empty($type)){
-        $posts = new Post();
-        $cant = $posts->getCantReaction($id, $type) + 1;   
-        if(count($posts->getExistReaction($_SESSION['username'], $id)) == 0){
-            if($posts->updateReaction($id, $type, $cant) == true){
-                header('Location: ../views/posts');
+        registerReaction($id, $type);
+    }else{
+        echo 'Debe ingresar todos los datos';
+    }
+
+    function registerReaction($id, $type){
+        $reaction = new Reaction();
+        if(count($reaction->findReactionUser($id, $_SESSION['id'])) == 0){
+            if($reaction->create($_SESSION['id'], $id, $type)){
+                header('Location: ../');
             }else{
-                echo 'Ocurrio un error';
+                echo 'Ocurrio un error, porfavor vuelva a intentarlo';
             }
         }else{
-            echo 'Solo puede reaccionar una vez en cada post';
+            echo 'Solo puede reaccionar una sola vez en cada post';
         }
-        
     }

@@ -22,6 +22,7 @@
                 if(count($usuario) > 0){
                     $_SESSION['username'] = $username;
                     $_SESSION['password'] = $password;
+                    $_SESSION['id'] = $user->getIdUser($username);
                     echo 'correcto';
                 }else{
                     echo 'Esta cuenta no existe, porfavor vuelva a intentarlo';
@@ -51,9 +52,9 @@
             if(!empty($nombre) && !empty($correo) && !empty($n_usuario) && !empty($n_contraseña)){
                 $user = new User();
                 $person = new Person();
-                if($user->create($n_usuario, md5($n_contraseña)) == true){
+                if($user->create($n_usuario, md5($n_contraseña))){
                     $id_user = $user->getId();
-                    if($person->create($nombre, $correo, $id_user) == true){
+                    if($person->create($nombre, $correo, $id_user)){
                         echo 'correcto';
                     }else{
                         echo 'Ocurrio un error al momento de crear la cuenta, porfavor vuelva a intentarlo';

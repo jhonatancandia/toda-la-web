@@ -2,4 +2,5 @@
     crossorigin="anonymous"></script>
     <script src="public/css/semantic/semantic.min.js"></script>
     <script src="public/js/app.js"></script>
+    <script src="public/js/toast.js"></script>
     
