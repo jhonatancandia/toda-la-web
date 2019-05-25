@@ -13,8 +13,8 @@ div a img{
     display: none;
 }
 
-.description p{
-    text-align:justify;
+.description{
+    overflow-wrap: break-word;
 }
 
 .smile.icon, .meh.icon{
