@@ -71,7 +71,7 @@
           <div class="header text-center"><?= $post['title']; ?></div>
           <div class="meta">
             <br>
-            <span class="left floated time"><?= 'Creado por '.$post['username'].' el '.$post['date_create']; ?></span>
+            <span class="left floated time"><?= 'Publicado por '.$post['username'].' el '.$post['date_create']; ?></span>
             <br>
           </div>
           <div class="description">
@@ -90,7 +90,7 @@
         ?>
           <div class="extra content">
             <div class="float floated author">
-              <a id="m_enc" href="controllers/reaction?idp=<?= base64_encode($post['id_post']);?>&type=<?= base64_encode('m_enc');?>"><i class="left floated like icon activating element" data-content="Me encanta"
+              <a href="controllers/reaction?idp=<?= base64_encode($post['id_post']);?>&type=<?= base64_encode('m_enc');?>"><i class="left floated like icon activating element" data-content="Me encanta"
                 data-position="bottom left"><?= $reactions->getCantReaction($post['id_post'], 'm_enc') ?></i></a>
               <a href="controllers/reaction?idp=<?= base64_encode($post['id_post']);?>&type=<?= base64_encode('m_emp');?>"><i class="left floated meh icon activating element" data-content="Me emperra" 
                 data-position="bottom left"><?= $reactions->getCantReaction($post['id_post'], 'm_emp') ?></i></a>
