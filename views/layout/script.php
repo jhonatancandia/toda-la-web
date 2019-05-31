@@ -1,5 +1,4 @@
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-    crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="public/css/semantic/semantic.min.js"></script>
     <script src="public/js/app.js"></script>
     <script src="public/js/toast.js"></script>

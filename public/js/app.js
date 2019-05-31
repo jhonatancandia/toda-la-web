@@ -5,7 +5,7 @@
         $("#search").on("keyup", function () {
             var value = $("#search").val().toLowerCase();
             $(".ui.card").filter(function () {
-                $(".ui.card").toggle($(".ui.card").text().toLowerCase().indexOf(value) > -1)
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });
 
